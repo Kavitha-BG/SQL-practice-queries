@@ -11,52 +11,60 @@ DROP TABLE department;
 */
 
 CREATE TABLE department (
-  department_id int(5),
+  department_id INT(5),
   department_name VARCHAR(100),
   CONSTRAINT pk_dept PRIMARY KEY (department_id)
 );
-
+DESCRIBE department;
 
 CREATE TABLE employee (
-  employee_id int(5),
+  employee_id INT(5),
   first_name VARCHAR(100),
   last_name VARCHAR(100),
-  salary int(8),
-  department_id int(5),
-  manager_id int(5),
+  salary INT(8),
+  department_id INT,
+  manager_id INT(5),
   hire_date DATE,
   CONSTRAINT pk_emp PRIMARY KEY (employee_id),
-  CONSTRAINT fk_emp_dept FOREIGN KEY (department_id) REFERENCES department(department_id)
+  CONSTRAINT fk_emp_dept FOREIGN KEY (department_id) 
+  REFERENCES department(department_id)
 );
+
+DESCRIBE employee;
 
 
 CREATE TABLE product (
-  product_id int(5),
+  product_id INT(5),
   product_name VARCHAR(100),
   price decimal(10, 2),
-  department_id int(5),
+  department_id INT(5),
   CONSTRAINT pk_prod PRIMARY KEY (product_id),
   CONSTRAINT fk_prod_dept FOREIGN KEY (department_id) REFERENCES department(department_id)
 );
+DESCRIBE product;
 
 CREATE TABLE customer (
-  customer_id int(5),
+  customer_id INT(5),
   first_name VARCHAR(100),
   last_name VARCHAR(100),
   address_state VARCHAR(10),
   email_address VARCHAR(350),
   CONSTRAINT pk_cust PRIMARY KEY (customer_id)
 );
+DESCRIBE customer;
+
 
 CREATE TABLE customer_order (
-  order_id int(5),
-  customer_id int(5),
-  product_id int(5),
+  order_id INT(5),
+  customer_id INT(5),
+  product_id INT(5),
   order_date DATE,
   CONSTRAINT pk_order PRIMARY KEY (order_id),
   CONSTRAINT fk_order_cust FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
   CONSTRAINT fk_order_prod FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
+DESCRIBE customer_order;
+
 
 
 /*
@@ -64,6 +72,8 @@ Sample data
 */
 
 /*Department*/
+SELECT * FROM department;
+
 INSERT INTO department (department_id, department_name) VALUES (1, 'Executive');
 INSERT INTO department (department_id, department_name) VALUES (2, 'Sales');
 INSERT INTO department (department_id, department_name) VALUES (3, 'Customer Support');
@@ -75,24 +85,26 @@ INSERT INTO department (department_id, department_name) VALUES (8, 'Legal');
 INSERT INTO department (department_id, department_name) VALUES (9, 'Maintenance');
 
 
-
 /*Employee*/
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (1, 'Michelle', 'Foster', 48000, 8, 162, TO_DATE('27-AUG-2011','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (2, 'Cheryl', 'Turner', 79000, 3, 99, TO_DATE('2-JAN-2012','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (3, 'Carolyn', 'Hudson', 47000, 7, 199, TO_DATE('4-DEC-2016','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (4, 'Patrick', 'Berry', 51000, 3, 159, TO_DATE('12-OCT-2011','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (5, 'Doris', 'Powell', 117000, 1, NULL, TO_DATE('15-NOV-2011','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (6, 'Jessica', 'Elliott', 21000, 7, 70, TO_DATE('2-JUL-2010','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (7, 'Sean', 'Burns', 51000, 6, 37, TO_DATE('3-OCT-2010','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (8, 'Ann', 'Bowman', 34000, 7, 187, TO_DATE('20-MAY-2010','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (9, 'Kathleen', 'Jones', 92000, 7, 131, TO_DATE('15-MAR-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (10, 'Scott', 'Cruz', 32000, 8, 170, TO_DATE('3-JUL-2014','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (11, 'Norma', 'Henry', 56000, 3, 8, TO_DATE('24-JUL-2013','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (12, 'Evelyn', 'Gonzalez', 118000, 5, 177, TO_DATE('13-JUL-2013','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (13, 'Stephen', 'Hudson', 63000, 4, 133, TO_DATE('22-DEC-2016','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
+SELECT * FROM employee;
+
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (1, 'Michelle', 'Foster', 48000, 8, 162, STR_TO_DATE('27-08-2011','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (2, 'Cheryl', 'Turner', 79000, 3, 99, STR_TO_DATE('2-1-2011','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (3, 'Carolyn', 'Hudson', 47000, 7, 199, STR_TO_DATE('4-12-2016','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (4, 'Patrick', 'Berry', 51000, 3, 159, STR_TO_DATE('12-10-2011','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (5, 'Doris', 'Powell', 117000, 1, NULL, STR_TO_DATE('15-11-2011','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (6, 'Jessica', 'Elliott', 21000, 7, 70, STR_TO_DATE('2-07-2010','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (7, 'Sean', 'Burns', 51000, 6, 37, STR_TO_DATE('3-10-2010','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (8, 'Ann', 'Bowman', 34000, 7, 187, STR_TO_DATE('20-05-2010','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (9, 'Kathleen', 'Jones', 92000, 7, 131, STR_TO_DATE('15-03-2015','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (10, 'Scott', 'Cruz', 32000, 8, 170, STR_TO_DATE('3-07-2014','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (11, 'Evelyn', 'Gonzalez', 118000, 5, 177, STR_TO_DATE('13-07-2013','%d-%m-%Y'));
+INSERT INTO employee (employee_id, first_name, last_name, salary, department_id, manager_id, hire_date) VALUES (12, 'Stephen', 'Hudson', 63000, 4, 133, STR_TO_DATE('22-12-2016','%d-%m-%Y'));
 
 
 /*Product*/
+SELECT * FROM product;
+
 INSERT INTO product (product_id, product_name, price, department_id) VALUES (1, 'Monitor', 149.95, 4);
 INSERT INTO product (product_id, product_name, price, department_id) VALUES (2, 'Desk', 110.9, 4);
 INSERT INTO product (product_id, product_name, price, department_id) VALUES (3, 'Chair', 79.95, 4);
@@ -105,6 +117,8 @@ INSERT INTO product (product_id, product_name, price, department_id) VALUES (8, 
 
 
 /*Customer*/
+SELECT * FROM department;
+
 INSERT INTO customer (customer_id, first_name, last_name, address_state, email_address) VALUES (1, 'Teresa', 'Hudson', 'NY', 'thudson@abc.com');
 INSERT INTO customer (customer_id, first_name, last_name, address_state, email_address) VALUES (2, 'Fred', 'Montgomery', 'CA', 'fmont@gmail.com');
 INSERT INTO customer (customer_id, first_name, last_name, address_state, email_address) VALUES (3, 'Lois', 'Lawson', 'OR', 'lois_law@outlook.com');
@@ -119,23 +133,25 @@ INSERT INTO customer (customer_id, first_name, last_name, address_state, email_a
 
 
 /*Customer Order*/
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (1, 3, 2, TO_DATE('18-DEC-2016','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (2, 5, 6, TO_DATE('1-JUN-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (3, 6, 5, TO_DATE('26-SEP-2016','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (4, 9, 1, TO_DATE('8-SEP-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (5, 7, 2, TO_DATE('13-APR-2016','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (6, 5, 7, TO_DATE('4-FEB-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (7, 9, 7, TO_DATE('11-APR-2016','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (8, 6, 8, TO_DATE('27-JUN-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (9, 2, 7, TO_DATE('23-JAN-2017','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (10, 8, 7, TO_DATE('7-NOV-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (11, 2, 2, TO_DATE('9-JUN-2016','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (12, 9, 7, TO_DATE('4-JAN-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (13, 5, 5, TO_DATE('22-APR-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (14, 9, 2, TO_DATE('14-SEP-2016','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (15, 7, 1, TO_DATE('7-DEC-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (16, 5, 4, TO_DATE('17-OCT-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
-INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (17, 9, 6, TO_DATE('14-MAR-2015','DD-MON-YYYY', 'NLS_DATE_LANGUAGE = american'));
+SELECT * FROM customer_order;
+
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (1, 3, 2, STR_TO_DATE('18-12-2016','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (2, 5, 6, STR_TO_DATE('1-06-2015','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (3, 6, 5, STR_TO_DATE('26-09-2016','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (4, 9, 1, STR_TO_DATE('8-09-2015','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (5, 7, 2, STR_TO_DATE('13-04-2016','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (6, 5, 7, STR_TO_DATE('4-02-2015','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (7, 9, 7, STR_TO_DATE('11-04-2016','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (8, 6, 8, STR_TO_DATE('27-05-2015','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (9, 2, 7, STR_TO_DATE('23-01-2017','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (10, 8, 7, STR_TO_DATE('7-11-2015','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (11, 2, 2, STR_TO_DATE('9-06-2016','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (12, 9, 7, STR_TO_DATE('4-01-2015','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (13, 5, 5, STR_TO_DATE('22-04-2015','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (14, 9, 2, STR_TO_DATE('14-09-2016','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (15, 7, 1, STR_TO_DATE('7-12-2015','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (16, 5, 4, STR_TO_DATE('17-10-2015','%d-%m-%Y'));
+INSERT INTO customer_order (order_id, customer_id, product_id, order_date) VALUES (17, 9, 6, STR_TO_DATE('14-03-2015','%d-%m-%Y'));
 
 
 COMMIT;
@@ -160,11 +176,13 @@ WHERE employee_id >= 5;
 
 
 /* Like operator %, _ */
-Select employee_id, first_name
+Select employee_id, first_name,last_name
 FROM employee
 WHERE last_name LIKE 'Bu%' ;
 
-Select employee_id, first_name
+SELECT * FROM employee;
+
+Select employee_id, first_name, last_name
 FROM employee
 WHERE last_name LIKE '%e%' ;
 
@@ -173,11 +191,10 @@ FROM employee
 WHERE first_name LIKE 'An_' ;
 
 
-
 /*Filtering on Date values ' ', use function */
 Select *
 FROM employee
-WHERE hire_date = '03-OCT-2010' ;
+WHERE hire_date = '03-10-2010' ;
 
 /* need to display date formate*/
 Select value
@@ -186,23 +203,23 @@ WHERE parameter = 'NLS_DATE_FORMAT' ;
 
 Select *
 FROM employee
-WHERE hire_date < '01-OCT-2010' ;
+WHERE hire_date < '01-10-2010' ;
 
 
 /* multiple filters - AND, OR,  */
 Select employee_id, first_name, last_name, salary, department_id, hire_date
 FROM employee
-WHERE first_name = 'John' AND last_name = 'Hayes' ;
+WHERE first_name = 'Scott' AND last_name = 'Cruz' ;
 
 Select employee_id, first_name, last_name, salary, department_id, hire_date
 FROM employee
-WHERE first_name = 'Justin' OR last_name = 'Foster' ;
+WHERE first_name = 'Patrick' OR last_name = 'Cruz' ;
 
 
 Select employee_id, first_name, last_name, salary, department_id, hire_date
 FROM employee
 WHERE first_name = 'Barbara' 
-AND (hire_date < '01-DEC-2014'
+AND (hire_date < '01-12-2014'
 OR salary < 70000 );
 
 /* NULL & NOT NULL  */
@@ -249,11 +266,11 @@ AND hire_date <= '31-DEC-2016';
 
 Select employee_id, first_name, last_name, salary, hire_date
 FROM employee 
-WHERE hire_date BETWEEN '01-JAN-2016' AND '31-DEC-2016';
+WHERE hire_date BETWEEN '01-01-2015' AND '31-12-2016';
 
 Select employee_id, first_name, last_name, salary, hire_date
 FROM employee 
-WHERE employee_id BETWEEN 10 AND 10;
+WHERE employee_id BETWEEN 1 AND 10;
 
 Select employee_id, first_name, last_name, salary, hire_date
 FROM employee 
@@ -290,7 +307,7 @@ FROM employee
 ORDER BY salary;
 
 /* Sorting multiple columns */
-Select employee_id, first_name, last_name, salary
+Select employee_id, first_name, last_name, salary, hire_date
 FROM employee 
 ORDER BY hire_date ASC, employee_id DESC;
 
@@ -342,6 +359,8 @@ MINUS
 Select first_name, last_name, salary
 FROM employee
 WHERE salary BETWEEN 31000 AND 33000;
+
+
 
 
 
