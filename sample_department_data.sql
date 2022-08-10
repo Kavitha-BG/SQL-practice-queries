@@ -631,15 +631,145 @@ AND employee.department_id = department.department_id;
 
 
 
-
+COMMIT;
 
 /* STRING FUNCTIONS */
 SELECT customer_id,
 first_name,
 last_name,
+address_state,
 email_address,
-INSTR(email_address, '@' )
+INSTR(email_address, '@'),
+LENGTH (address_state)
+FROM customer
+WHERE INSTR(email_address, '@') > 0
+AND LENGTH(address_state) = 2 
+ORDER BY LENGTH(email_address) DESC;
+
+/* Nesting functions */
+SELECT customer_id,
+first_name,
+last_name,
+address_state,
+email_address,
+INSTR(email_address, '@'),
+SUBSTR(email_address, INSTR(email_address, '@')+1, LENGTH(email_address)) AS email_doamain
 FROM customer;
+
+
+/* NUMBER functions */
+SELECT product_id,
+product_name,
+price
+FROM product;
+
+SELECT product_id,
+product_name,
+price,
+ROUND(price),
+ROUND(price, 1),
+CEIL(price),
+FLOOR(price)
+FROM product;
+
+SELECT 
+product_id,
+product_name,
+price,
+price * 9 * 0.85,
+ROUND(price * 9 * 0.85, 2),
+CEIL(price * 9 *0.85)
+FROM product
+WHERE product_id = 1;
+
+/* DATE function */
+SELECT employee_id,
+first_name,
+last_name,
+hire_date,
+SYSDATE
+FROM employee;
+
+SELECT employee_id,
+first_name,
+last_name,
+hire_date,
+ADD_MONTHS(hire_date, 6) AS review_date
+FROM employee;
+
+SELECT employee_id,
+first_name,
+last_name,
+hire_date,
+ADD_MONTHS(hire_date, 6) AS review_date,
+ADD_MONTHS(hire_date, 60)
+FROM employee;
+
+SELECT employee_id,
+first_name,
+last_name,
+hire_date,
+ROUND(MONTHS_BETWEEN(SYSDATE, hire_date)/12, 1) AS years_with_company
+FROM employee;
+
+SELECT ADD_MONTHS (SYSDATE, 20)
+FROM dual;
+
+/* DATATYPES & Conversions*/
+SELECT first_name,
+last_name,
+hire_date,
+TO_CHAR(hire_date, 'YYYY_MM_DD')
+FROM employee;
+
+SELECT TO_DATE('2017_05_28', 'YYYY_MM_DD')
+FROM dual;
+
+SELECT TO_NUMBER('200')
+FROM dual;
+
+/* CASE statements */
+SELECT 
+product_id,
+product_name,
+price,
+CASE
+WHEN price > 100 THEN 'OVer 100'
+WHEN price <= 100 THEN 'Less than or under 100'
+END price_group
+FROM product;
+
+SELECT 
+product_id,
+product_name,
+price,
+CASE
+WHEN price > 200 THEN 'OVer 200'
+WHEN price > 100 AND price <= 200 THEN 'Less than or under 100'
+WHEN price > 50 AND price <= 100 THEN 'BETWEEN 50 and 100'
+ELSE 'Under 50'
+END price_group
+FROM product;
+
+SELECT customer_id,
+first_name,
+last_name,
+address_state,
+CASE
+WHEN address_state IN('NY', 'SC') THEN 'East'
+WHEN address_state IN('CA', 'OR', 'TX') THEN 'East'
+-- WHEN 'NY' THEN 'East'
+-- WHEN 'CA' THEN 'West'
+-- WHEN 'OR' THEN 'West'
+-- WHEN 'SC' THEN 'East'
+-- WHEN 'TX' THEN 'West'
+ELSE 'Unknown'
+END state_group
+FROM customer;
+
+
+
+
 
 
 
